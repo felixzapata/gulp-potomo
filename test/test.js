@@ -32,12 +32,9 @@ describe('gulp-potomo', function() {
 
   it('1) Should compile PO to MO with msgfmt.', function(done) {
 
-    var options = {};
-
     gulp.src(fixtures('en_GB.mo'))
-      .pipe(potomo(options))
+      .pipe(potomo())
       .pipe(sassert.first(function() {
-
         var actual = fs.readFileSync(fixtures('en_GB.mo')).toString();
         var expected = fs.readFileSync('test/expected/en_GB.mo').toString();
         corrected.should.equal(expected);
@@ -50,10 +47,8 @@ describe('gulp-potomo', function() {
 
   it('2) Should compile PO to MO with msgfmt.', function(done) {
 
-    var options = {};
-
     gulp.src(fixtures('ne_NP.mo'))
-      .pipe(potomo(options))
+      .pipe(potomo())
       .pipe(sassert.first(function() {
 
         var actual = fs.readFileSync(fixtures('ne_NP.mo')).toString();
