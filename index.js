@@ -63,27 +63,28 @@ function gulpPotomo(customOptions, cb) {
     }
     
     // Run external tool synchronously.
-    var command = 'msgfmt -o ' + file.dest + ' ' + file.src[0];
+    var fileDestName = path.basename(file.path,'.po') + '.mo'; 
+    var command = 'msgfmt -o ' + fileDestName + ' ' + file.path;
     if (shell.exec(command).code !== 0) {
       console.log(chalk.red('Failed to Compile "*.po" files into binary "*.mo" files with "msgfmt".'));
       shell.exit(1);
     } else {
-      console.log('File ' + chalk.cyan(file.dest) + ' Created.');
+      console.log('File ' + chalk.cyan(fileDestName) + ' Created.');
     }
 
     // Delete Source PO file(s).
-    if (options.poDel && fileExists(file.src[0])) {
-      fs.removeSync(file.src[0]);
+    if (options.poDel && fileExists(file.path)) {
+      fs.removeSync(file.path);
     }
+    
+    // Process the Message.
 
-		// Process the Message.
-		if (this.files.length > 1) {
-      var message = "Total compiled " + this.files.length + ' ".mo" files.';
-      if (options.poDel) {
-        message = "Total compiled " + this.files.length + " and deleted " + this.files.length + ' ".po" files.';
-      }
-      console.log(chalk.green(message));
+    var message = 'Compiled ' + file.path + ' file.';
+    if (options.poDel) {
+      message = 'Deleted ' + file.path + ' files.';
     }
+    console.log(chalk.green(message));
+    
    
     this.push(file);
 
