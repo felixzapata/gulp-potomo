@@ -10,7 +10,7 @@ var assert = require('assert');
 var sassert = require('stream-assert');
 require('mocha');
 
-var fixtures = function(glob) { return path.join(__dirname, './temp', glob); }
+var fixtures = function(glob) { return path.join(__dirname, './fixtures', glob); }
 
 
 describe('gulp-potomo', function() {
@@ -32,13 +32,12 @@ describe('gulp-potomo', function() {
 
   it('1) Should compile PO to MO with msgfmt.', function(done) {
 
-    gulp.src(fixtures('en_GB.mo'))
+    gulp.src(fixtures('en_GB.po'))
       .pipe(potomo())
       .pipe(sassert.first(function() {
-        var actual = fs.readFileSync(fixtures('en_GB.mo')).toString();
-        var expected = fs.readFileSync('test/expected/en_GB.mo').toString();
-        corrected.should.equal(expected);
-
+        var expected = fs.readFileSync(path.join(__dirname,'expected/en_GB.mo')).toString();
+        var actual = fs.readFileSync(path.join(__dirname, '../', 'en_GB.mo')).toString();
+        actual.should.equal(expected);
       }))
       .pipe(sassert.end(done));
 
@@ -47,13 +46,12 @@ describe('gulp-potomo', function() {
 
   it('2) Should compile PO to MO with msgfmt.', function(done) {
 
-    gulp.src(fixtures('ne_NP.mo'))
+    gulp.src(fixtures('ne_NP.po'))
       .pipe(potomo())
       .pipe(sassert.first(function() {
-
-        var actual = fs.readFileSync(fixtures('ne_NP.mo')).toString();
-        var expected = fs.readFileSync('test/expected/ne_NP.mo').toString();
-        corrected.should.equal(expected);
+        var expected = fs.readFileSync(path.join(__dirname,'expected/ne_NP.mo')).toString();
+        var actual = fs.readFileSync(path.join(__dirname, '../', 'ne_NP.mo')).toString();
+        actual.should.equal(expected);
 
       }))
       .pipe(sassert.end(done));
