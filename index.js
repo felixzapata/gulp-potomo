@@ -8,7 +8,7 @@
 
 'use strict';
 
-var fs = require('fs');
+var fs = require('fs-extra');
 var path = require('path');
 var R = require('ramda');
 var chalk = require('chalk');
@@ -21,7 +21,7 @@ var PLUGIN_NAME = 'gulp-potomo';
 function fileExists(filePath) {
   try {
     return fs.statSync(filePath).isFile();
-  } catch(e) {
+  } catch (e) {
     return false;
   }
 }
@@ -35,13 +35,15 @@ function gulpPotomo(customOptions, cb) {
   var options = customOptions ? R.merge(defaultOptions, customOptions) : defaultOptions;
 
   function bufferContents(file, enc, cb) {
-    
+
     /* jshint validthis: true */
-    
-    var fileDestName;
+
+    var mofileDest;
     var moFile;
+    var moFileName;
     var command;
     var message;
+    var tempFolder;
 
     // Return warning if not found msgfmt command
     if (!shell.which('msgfmt')) {
@@ -49,7 +51,7 @@ function gulpPotomo(customOptions, cb) {
       cb();
       return;
     }
-    
+
     // ignore empty files
     if (file.isNull()) {
       cb();
@@ -62,28 +64,36 @@ function gulpPotomo(customOptions, cb) {
       return;
     }
 
-    
-    // Run external tool synchronously.
-    fileDestName = path.basename(file.path,'.po') + '.mo'; 
-    command = 'msgfmt -o ' + fileDestName + ' ' + file.path;
-    
+
+    // create a temp folder to save the mo files
+    tempFolder = path.join(__dirname, '.tmp/');
+    fs.mkdirsSync(tempFolder);
+
+    moFileName = path.basename(file.path, '.po') + '.mo';
+    mofileDest = path.join(tempFolder, moFileName);
+
+    command = 'msgfmt -o ' + mofileDest + ' ' + file.path;
+
     if (shell.exec(command).code !== 0) {
       this.emit('error', new gutil.PluginError(PLUGIN_NAME, 'Failed to Compile "*.po" files into binary "*.mo" files with "msgfmt".'));
       cb();
       return;
     } else {
-      console.log('File ' + chalk.cyan(fileDestName) + ' Created.');
+      console.log('File ' + chalk.cyan(mofileDest) + ' Created.');
       moFile = new gutil.File({
-        path: fileDestName,
-        contents: new Buffer(fs.readFileSync(fileDestName))
+        path: moFileName,
+        contents: new Buffer(fs.readFileSync(mofileDest))
       });
     }
+    
+    // remove the temp folder
+    fs.removeSync(tempFolder);
 
     // Delete Source PO file(s).
     if (options.poDel && fileExists(file.path)) {
       fs.removeSync(file.path);
     }
-    
+
     // Process the Message.
 
     message = 'Compiled ' + file.path + ' file.';
@@ -91,7 +101,7 @@ function gulpPotomo(customOptions, cb) {
       message = 'Deleted ' + file.path + ' files.';
     }
     console.log(chalk.green(message));
-    
+
     this.push(moFile);
 
     cb();
