@@ -39,6 +39,7 @@ function gulpPotomo(customOptions, cb) {
     /* jshint validthis: true */
     
     var fileDestName;
+    var moFile;
     var command;
     var message;
 
@@ -72,6 +73,10 @@ function gulpPotomo(customOptions, cb) {
       return;
     } else {
       console.log('File ' + chalk.cyan(fileDestName) + ' Created.');
+      moFile = new gutil.File({
+        path: fileDestName,
+        contents: new Buffer(fs.readFileSync(fileDestName))
+      });
     }
 
     // Delete Source PO file(s).
@@ -87,8 +92,7 @@ function gulpPotomo(customOptions, cb) {
     }
     console.log(chalk.green(message));
     
-   
-    this.push(file);
+    this.push(moFile);
 
     cb();
 
