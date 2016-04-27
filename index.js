@@ -21,7 +21,7 @@ var PLUGIN_NAME = 'gulp-potomo';
 function fileExists(filePath) {
   try {
     return fs.statSync(filePath).isFile();
-  } catch (err) {
+  } catch(e) {
     return false;
   }
 }
@@ -48,9 +48,10 @@ function gulpPotomo(customOptions, cb) {
       cb();
       return;
     }
-
+    
+    // ignore empty files
     if (file.isNull()) {
-      cb(null, file);
+      cb();
       return;
     }
 
@@ -60,12 +61,6 @@ function gulpPotomo(customOptions, cb) {
       return;
     }
 
-    
-    if(!fileExists(file.path)){
-      this.emit('error', new gutil.PluginError(PLUGIN_NAME, 'Source file "' + file.path + '" not found.'));
-      cb();
-      return;
-    }
     
     // Run external tool synchronously.
     fileDestName = path.basename(file.path,'.po') + '.mo'; 
