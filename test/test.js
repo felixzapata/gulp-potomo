@@ -65,7 +65,19 @@ describe('gulp-potomo', function() {
         .on('error', function (err) {
           err.message.should.eql('Streaming not supported');
           done();
-        });
-    });
+       });
+   });
+   
+   xit('4) Should emit error when file is not found', function (done) {
+    
+      var missing = path.join(__dirname, './fixtures', 'foobar.po');
+      console.log(missing);
+      gulp.src(missing)
+        .pipe(potomo())
+        .on('error', function (err) {
+          err.message.should.eql('Source file ' + missing + ' not found.');
+          done();
+       });
+   });
 
 });
