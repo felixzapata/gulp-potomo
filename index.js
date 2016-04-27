@@ -14,6 +14,7 @@ var R = require('ramda');
 var chalk = require('chalk');
 var through = require('through2');
 var shell = require('shelljs');
+var gutil = require('gulp-util');
 var PLUGIN_NAME = 'gulp-potomo';
 
 
@@ -54,14 +55,14 @@ function gulpPotomo(customOptions, cb) {
     }
 
     if (file.isStream()) {
-      this.emit('error', new PluginError(PLUGIN_NAME, 'Streaming not supported'));
+      this.emit('error', new gutil.PluginError(PLUGIN_NAME, 'Streaming not supported'));
       cb();
       return;
     }
 
     
     if(!fileExists(file.path)){
-      this.emit('error', new PluginError(PLUGIN_NAME, 'Source file "' + file.path + '" not found.'));
+      this.emit('error', new gutil.PluginError(PLUGIN_NAME, 'Source file "' + file.path + '" not found.'));
       cb();
       return;
     }
@@ -69,9 +70,11 @@ function gulpPotomo(customOptions, cb) {
     // Run external tool synchronously.
     fileDestName = path.basename(file.path,'.po') + '.mo'; 
     command = 'msgfmt -o ' + fileDestName + ' ' + file.path;
+    
     if (shell.exec(command).code !== 0) {
-      console.log(chalk.red('Failed to Compile "*.po" files into binary "*.mo" files with "msgfmt".'));
-      shell.exit(1);
+      this.emit('error', new gutil.PluginError(PLUGIN_NAME, 'Failed to Compile "*.po" files into binary "*.mo" files with "msgfmt".'));
+      cb();
+      return;
     } else {
       console.log('File ' + chalk.cyan(fileDestName) + ' Created.');
     }
