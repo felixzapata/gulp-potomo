@@ -36,6 +36,10 @@ function gulpPotomo(customOptions, cb) {
   function bufferContents(file, enc, cb) {
     
     /* jshint validthis: true */
+    
+    var fileDestName;
+    var command;
+    var message;
 
     // Return warning if not found msgfmt command
     if (!shell.which('msgfmt')) {
@@ -63,8 +67,8 @@ function gulpPotomo(customOptions, cb) {
     }
     
     // Run external tool synchronously.
-    var fileDestName = path.basename(file.path,'.po') + '.mo'; 
-    var command = 'msgfmt -o ' + fileDestName + ' ' + file.path;
+    fileDestName = path.basename(file.path,'.po') + '.mo'; 
+    command = 'msgfmt -o ' + fileDestName + ' ' + file.path;
     if (shell.exec(command).code !== 0) {
       console.log(chalk.red('Failed to Compile "*.po" files into binary "*.mo" files with "msgfmt".'));
       shell.exit(1);
@@ -79,7 +83,7 @@ function gulpPotomo(customOptions, cb) {
     
     // Process the Message.
 
-    var message = 'Compiled ' + file.path + ' file.';
+    message = 'Compiled ' + file.path + ' file.';
     if (options.poDel) {
       message = 'Deleted ' + file.path + ' files.';
     }
