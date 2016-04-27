@@ -17,13 +17,6 @@ describe('gulp-potomo', function() {
 
   var tmpFolder = path.join(__dirname, 'temp');
 
-  beforeEach(function(done) {
-    var folder = path.join(__dirname, './fixtures/');
-    fs.copy(folder, tmpFolder, function(err) {
-      done();
-    });
-  });
-
   // We'll delete it when we're done.
   afterEach(function(done) {
     fs.remove(tmpFolder, done);
@@ -34,12 +27,14 @@ describe('gulp-potomo', function() {
 
     gulp.src(fixtures('en_GB.po'))
       .pipe(potomo())
-      .pipe(sassert.first(function() {
+      .pipe(sassert.length(1))
+      .pipe(gulp.dest(tmpFolder))
+      .pipe(sassert.end(function(){
         var expected = fs.readFileSync(path.join(__dirname,'expected/en_GB.mo')).toString();
-        var actual = fs.readFileSync(path.join(__dirname, '../', 'en_GB.mo')).toString();
+        var actual = fs.readFileSync(path.join(__dirname, 'temp/en_GB.mo')).toString();
         actual.should.equal(expected);
-      }))
-      .pipe(sassert.end(done));
+        done();
+      }));
 
 
   });
@@ -48,14 +43,14 @@ describe('gulp-potomo', function() {
 
     gulp.src(fixtures('ne_NP.po'))
       .pipe(potomo())
-      .pipe(sassert.first(function() {
+      .pipe(sassert.length(1))
+      .pipe(gulp.dest(tmpFolder))
+      .pipe(sassert.end(function(){
         var expected = fs.readFileSync(path.join(__dirname,'expected/ne_NP.mo')).toString();
-        var actual = fs.readFileSync(path.join(__dirname, '../', 'ne_NP.mo')).toString();
+        var actual = fs.readFileSync(path.join(__dirname, 'temp/ne_NP.mo')).toString();
         actual.should.equal(expected);
-
+        done();
       }))
-      .pipe(sassert.end(done));
-
   });
   
   it('3) Should emit error on streamed file', function (done) {
