@@ -57,5 +57,15 @@ describe('gulp-potomo', function() {
       .pipe(sassert.end(done));
 
   });
+  
+  it('3) Should emit error on streamed file', function (done) {
+    
+      gulp.src(fixtures('*'), { buffer: false })
+        .pipe(potomo())
+        .on('error', function (err) {
+          err.message.should.eql('Streaming not supported');
+          done();
+        });
+    });
 
 });
