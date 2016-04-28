@@ -66,7 +66,7 @@ function gulpPotomo(customOptions, cb) {
 
 
     // create a temp folder to save the mo files
-    tempFolder = path.join(__dirname, '.tmp/');
+    tempFolder = path.join(__dirname, 'tmp/');
     fs.mkdirsSync(tempFolder);
 
     moFileName = path.basename(file.path, '.po') + '.mo';
