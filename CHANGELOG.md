@@ -1,3 +1,13 @@
+<a name="1.0.1"></a>
+## [1.0.1](https://github.com/felixzapata/gulp-potomo/compare/1.0.0...v1.0.1) (2016-04-28)
+
+
+### Bug Fixes
+
+* **index.js:** change name of the temp folder to avoid problems with Windows ([2892930](https://github.com/felixzapata/gulp-potomo/commit/2892930))
+
+
+
 <a name="1.0.0"></a>
 # 1.0.0 (2016-04-27)
 
