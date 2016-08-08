@@ -6,9 +6,7 @@ A Gulp plugin to compile .po files into binary .mo files with msgfmt.
 
 Inspired by [grunt-potomo](https://github.com/axisthemes/grunt-potomo).
 
-## Work in progress
-
-### Requirements
+## Requirements
 * This plugin requires Gulp
 * [GNU gettext](http://www.gnu.org/software/gettext/) installed and in your PATH. Installation instructions: [Mac](http://brewformulas.org/Gettext), [Windows](http://gnuwin32.sourceforge.net/packages/gettext.htm) and [Linux](http://ftp.gnu.org/pub/gnu/gettext/)
 
