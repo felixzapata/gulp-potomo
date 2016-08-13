@@ -1,6 +1,7 @@
 # gulp-potomo
 
 [![Build Status](https://travis-ci.org/felixzapata/gulp-potomo.png)](https://travis-ci.org/felixzapata/gulp-potomo)
+[![Package Quality](http://npm.packagequality.com/badge/gulp-potomo.png)](http://npm.packagequality.com/badge/gulp-potomo.png)
 
 A Gulp plugin to compile .po files into binary .mo files with msgfmt.
 
