@@ -47,7 +47,7 @@ function gulpPotomo(customOptions, cb) {
 
     // Return warning if not found msgfmt command
     if (!shell.which('msgfmt')) {
-      this.emit('error', new PluginError(PLUGIN_NAME, 'GNU gettext is not installed in your system PATH.'));
+      this.emit('error', new gutil.PluginError(PLUGIN_NAME, 'GNU gettext is not installed in your system PATH.'));
       cb();
       return;
     }
