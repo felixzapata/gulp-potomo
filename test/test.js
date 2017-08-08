@@ -52,9 +52,9 @@ describe('gulp-potomo', function() {
         done();
       }))
   });
-  
+
   it('3) Should emit error on streamed file', function (done) {
-    
+
       gulp.src(fixtures('*'), { buffer: false })
         .pipe(potomo())
         .on('error', function (err) {
@@ -62,9 +62,9 @@ describe('gulp-potomo', function() {
           done();
        });
    });
-   
+
    xit('4) Should emit error when file is not found', function (done) {
-    
+
       var missing = path.join(__dirname, './fixtures', 'foobar.po');
       console.log(missing);
       gulp.src(missing)
@@ -74,5 +74,21 @@ describe('gulp-potomo', function() {
           done();
        });
    });
+
+    it('5) Should compile PO to MO with msgfmt when path has a space.', function(done) {
+
+        gulp.src(path.join(__dirname, './fixtures/directory with spaces', 'en_GB.po'))
+            .pipe(potomo())
+            .pipe(sassert.length(1))
+            .pipe(gulp.dest(tmpFolder))
+            .pipe(sassert.end(function(){
+                var expected = fs.readFileSync(path.join(__dirname,'expected/en_GB.mo')).toString();
+                var actual = fs.readFileSync(path.join(__dirname, 'temp/en_GB.mo')).toString();
+                actual.should.equal(expected);
+                done();
+            }));
+
+
+    });
 
 });
