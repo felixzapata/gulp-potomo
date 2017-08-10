@@ -72,7 +72,7 @@ function gulpPotomo(customOptions, cb) {
     moFileName = path.basename(file.path, '.po') + '.mo';
     mofileDest = path.join(tempFolder, moFileName);
 
-    command = 'msgfmt -o ' + mofileDest + ' ' + file.path;
+    command = 'msgfmt -o "' + mofileDest + '" "' + file.path + '"';
 
     if (shell.exec(command).code !== 0) {
       this.emit('error', new gutil.PluginError(PLUGIN_NAME, 'Failed to Compile "*.po" files into binary "*.mo" files with "msgfmt".'));
