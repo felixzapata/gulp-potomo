@@ -1,7 +1,9 @@
 <a name="1.0.3"></a>
 ## [1.0.3](https://github.com/felixzapata/gulp-potomo/compare/1.0.2...1.0.3) (2017-08-10)
 
+### Bug Fixes
 
+* **index.js:** allow for spaces in file path ([3eb003b](https://github.com/felixzapata/gulp-potomo/commit/3eb003b))
 
 <a name="1.0.2"></a>
 ## [1.0.2](https://github.com/felixzapata/gulp-potomo/compare/1.0.1...v1.0.2) (2016-10-17)
