@@ -40,6 +40,10 @@ gulp.src(['en_GB.po', 'ne_NP.po'])
   .pipe(gulp.dest('dest/languages'));
 ```
 
+## Release History
+
+Read the [full changelog](CHANGELOG.md).
+
 ## License
 
 ISC © [Félix Zapata](http://github.com/felixzapata)
