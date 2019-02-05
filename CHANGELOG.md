@@ -1,3 +1,13 @@
+<a name="1.1.0"></a>
+# [1.1.0](https://github.com/felixzapata/gulp-potomo/compare/1.0.3...1.1.0) (2019-02-05)
+
+
+### Features
+
+* **index.js:** added the verbose option to switch verbosity on or off ([69c326f](https://github.com/felixzapata/gulp-potomo/commit/69c326f))
+
+
+
 <a name="1.0.3"></a>
 ## [1.0.3](https://github.com/felixzapata/gulp-potomo/compare/1.0.2...1.0.3) (2017-08-10)
 
