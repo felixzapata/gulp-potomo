@@ -29,10 +29,17 @@ function fileExists(filePath) {
 function gulpPotomo(customOptions, cb) {
 
   var defaultOptions = {
-    poDel: false
+    poDel: false,
+    verbose: true
   };
 
   var options = customOptions ? R.merge(defaultOptions, customOptions) : defaultOptions;
+
+  function log(message) {
+    if(options.verbose) {
+      console.log(message);
+    }
+  }
 
   function bufferContents(file, enc, cb) {
 
@@ -79,13 +86,13 @@ function gulpPotomo(customOptions, cb) {
       cb();
       return;
     } else {
-      console.log('File ' + chalk.cyan(mofileDest) + ' Created.');
+      log('File ' + chalk.cyan(mofileDest) + ' Created.');
       moFile = new gutil.File({
         path: moFileName,
         contents: new Buffer(fs.readFileSync(mofileDest))
       });
     }
-    
+
     // remove the temp folder
     fs.removeSync(tempFolder);
 
@@ -100,7 +107,7 @@ function gulpPotomo(customOptions, cb) {
     if (options.poDel) {
       message = 'Deleted ' + file.path + ' files.';
     }
-    console.log(chalk.green(message));
+    log(chalk.green(message));
 
     this.push(moFile);
 

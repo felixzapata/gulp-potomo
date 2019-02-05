@@ -28,11 +28,18 @@ Default: `false`
 
 Whether the `PO` file(s) used from source should be deleted or remove after the creation of `MO` file(s).
 
+#### options.verbose
+Type: `Boolean`  
+Default: `true`
+
+Whether file creation and completion messages should be shown.
+
 ### Example config
 
 ```js
 var options: {                       
-  poDel: true
+  poDel: true,
+  verbose: false
 };
 
 gulp.src(['en_GB.po', 'ne_NP.po'])
