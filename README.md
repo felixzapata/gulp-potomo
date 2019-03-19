@@ -37,7 +37,7 @@ Whether file creation and completion messages should be shown.
 ### Example config
 
 ```js
-var options: {                       
+var options = {                       
   poDel: true,
   verbose: false
 };
